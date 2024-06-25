@@ -9,6 +9,12 @@ const LogInScreen = () => {
     });
   };
 
+  const googleLog = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  };
+
   return (
     <div className={styles.login}>
       <div className={styles.container}>
@@ -28,6 +34,7 @@ const LogInScreen = () => {
           </button>
         </form>
         <button onClick={login}>TEST GH</button>
+        <button onClick={googleLog}>Google Log</button>
         <p className={styles.subtitle}>
           Don't have an account? <a href="">SignIn</a>
         </p>
