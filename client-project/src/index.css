@@ -36,15 +36,15 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 5px;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: white;
 }
 button:hover {
   border-color: #646cff;
@@ -52,6 +52,31 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+input {
+  padding: 5px;
+  background-color: inherit;
+  outline: none;
+  border: 1px solid grey;
+}
+
+input[type="text"]:focus {
+  border-color: #646cff;
+  background-color: inherit;
+  outline: none;
+}
+
+input[type="email"]:focus {
+  border-color: #646cff;
+  background-color: inherit;
+  outline: none;
+}
+
+input[type="password"]:focus {
+  border-color: #646cff;
+  background-color: inherit;
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {
