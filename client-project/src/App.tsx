@@ -7,7 +7,8 @@ import MyUploads from "./components/MyUploads/MyUploads";
 function App() {
   return (
     <div className="container">
-      <MyUploads />
+      {/* <MyUploads /> */}
+      <LogInScreen />
     </div>
   );
 }
