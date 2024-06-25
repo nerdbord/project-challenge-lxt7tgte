@@ -1,0 +1,37 @@
+.uploadbox {
+  background-color: inherit;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: 40px;
+  border: 3px dashed white;
+  white-space: "pre-line";
+  text-wrap: wrap;
+  border-radius: 5px;
+}
+
+.subtitle {
+  font-size: small;
+  color: grey;
+}
+
+.buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1em;
+  width: 100%;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  background-color: #1a1a1a;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  width: 100%;
+}

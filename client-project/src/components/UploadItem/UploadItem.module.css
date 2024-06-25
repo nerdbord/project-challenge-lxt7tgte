@@ -1,0 +1,12 @@
+.item {
+  background-color: #181818;
+  border-radius: 5px;
+  padding: 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+p {
+  margin: none !important;
+}
