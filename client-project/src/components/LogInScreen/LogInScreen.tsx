@@ -1,11 +1,18 @@
 import styles from "./LogInScreen.module.css";
-import login from "../../assets/login.png";
+import loginImage from "../../assets/loginImage.png";
+import { supabase } from "../../helpers/supabaseClient";
 
 const LogInScreen = () => {
+  const login = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "github",
+    });
+  };
+
   return (
     <div className={styles.login}>
       <div className={styles.container}>
-        <img className={styles.img} src={login} alt="login image" />
+        <img className={styles.img} src={loginImage} alt="login image" />
       </div>
       <div className={styles.container}>
         <p className={styles.title}>
@@ -20,6 +27,7 @@ const LogInScreen = () => {
             LogIn
           </button>
         </form>
+        <button onClick={login}>TEST GH</button>
         <p className={styles.subtitle}>
           Don't have an account? <a href="">SignIn</a>
         </p>
