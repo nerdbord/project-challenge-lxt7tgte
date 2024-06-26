@@ -1,10 +1,10 @@
 import "./App.css";
-import LogInScreen from "./components/LogInScreen/LogInScreen";
 // import SignInScreen from "./components/SignInScreen/SignInScreen";
 import UploadFile from "./components/UploadFile/UploadFile";
-import MyUploads from "./components/MyUploads/MyUploads";
+// import MyUploads from "./components/MyUploads/MyUploads";
 import { useEffect, useState } from "react";
 import { supabase } from "./helpers/supabaseClient";
+import LogInScreen from "./components/LogInScreen/LogInScreen";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
