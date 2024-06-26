@@ -4,7 +4,16 @@ import styles from "./UploadFile.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { FileObject } from "@supabase/storage-js";
 
-const UploadFile = () => {
+const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error logging out:", error.message);
+    } else {
+      onLogout();
+    }
+  };
+
   const [images, setImages] = useState<FileObject[]>([]);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
@@ -96,6 +105,7 @@ const UploadFile = () => {
           </>
         )}
       </div>
+      <button onClick={logout}>Log out</button>
     </div>
   );
 };
