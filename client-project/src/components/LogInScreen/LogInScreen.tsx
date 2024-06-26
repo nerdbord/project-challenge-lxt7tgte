@@ -55,18 +55,12 @@ const LogInScreen = () => {
             id="username"
             name="username"
           />
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" />
-          <button type="submit" value="Submit">
-            LogIn
-          </button>
         </form>
-        <button onClick={() => magicLink()}>Get Magic Link</button>
-        <button onClick={login}>TEST GH</button>
-        <button onClick={googleLog}>Google Log</button>
-        {/* <p className={styles.subtitle}>
-          Don't have an account? <a href="">SignIn</a>
-        </p> */}
+        <div className={styles.btnwrap}>
+          <button onClick={() => magicLink()}>Get Magic Link</button>
+          <button onClick={login}>GitHub Auth</button>
+          <button onClick={googleLog}>Google Login</button>
+        </div>
       </div>
     </div>
   );

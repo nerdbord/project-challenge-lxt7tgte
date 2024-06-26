@@ -60,3 +60,11 @@
     flex-direction: column-reverse;
   }
 }
+
+.btnwrap {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 1rem;
+}
