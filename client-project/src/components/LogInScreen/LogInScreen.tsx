@@ -64,9 +64,9 @@ const LogInScreen = () => {
         <button onClick={() => magicLink()}>Get Magic Link</button>
         <button onClick={login}>TEST GH</button>
         <button onClick={googleLog}>Google Log</button>
-        <p className={styles.subtitle}>
+        {/* <p className={styles.subtitle}>
           Don't have an account? <a href="">SignIn</a>
-        </p>
+        </p> */}
       </div>
     </div>
   );

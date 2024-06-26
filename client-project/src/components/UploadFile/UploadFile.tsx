@@ -6,6 +6,8 @@ import { FileObject } from "@supabase/storage-js";
 
 const UploadFile = () => {
   const [images, setImages] = useState<FileObject[]>([]);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+
   const user = useUser();
   const supabase = useSupabaseClient();
 
@@ -35,16 +37,32 @@ const UploadFile = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const filePath = `${user.id}/${uuidv4()}`;
+
     const { data, error } = await supabase.storage
       .from("images")
-      .upload(`${user.id}/${uuidv4()}`, file);
+      .upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
 
     if (data) {
+      const { data: publicData } = supabase.storage
+        .from("images")
+        .getPublicUrl(filePath);
+      setUploadedImageUrl(publicData.publicUrl);
       getImages();
     } else {
       console.log("error", error);
     }
   }
+
+  const copyToClipboard = () => {
+    if (uploadedImageUrl) {
+      navigator.clipboard.writeText(uploadedImageUrl);
+      alert("URL copied to clipboard");
+    }
+  };
 
   return (
     <div className={styles.upload}>
@@ -62,8 +80,21 @@ const UploadFile = () => {
         <p className={styles.subtitle}>500 MB max file size.</p>
       </form>
       <div className={styles.buttons}>
-        {/* <button className={styles.button}>Upload</button> */}
-        {/* <button className={styles.button}>Cancel</button> */}
+        {uploadedImageUrl && (
+          <>
+            <p>
+              Your IMG Link:{" "}
+              <a
+                href={uploadedImageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {uploadedImageUrl}
+              </a>
+            </p>
+            <button onClick={copyToClipboard}>Copy URL to Image</button>
+          </>
+        )}
       </div>
     </div>
   );
