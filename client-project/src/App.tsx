@@ -1,7 +1,7 @@
 import "./App.css";
 import LogInScreen from "./components/LogInScreen/LogInScreen";
 // import SignInScreen from "./components/SignInScreen/SignInScreen";
-// import UploadFile from "./components/UploadFile/UploadFile";
+import UploadFile from "./components/UploadFile/UploadFile";
 import MyUploads from "./components/MyUploads/MyUploads";
 import { useEffect, useState } from "react";
 import { supabase } from "./helpers/supabaseClient";
@@ -40,7 +40,8 @@ function App() {
 
   return (
     <div className="container">
-      {loggedIn ? <MyUploads onLogout={handleLogout} /> : <LogInScreen />}
+      {/* {loggedIn ? <MyUploads onLogout={handleLogout} /> : <LogInScreen />} */}
+      {loggedIn ? <UploadFile /> : <LogInScreen />}
     </div>
   );
 }
