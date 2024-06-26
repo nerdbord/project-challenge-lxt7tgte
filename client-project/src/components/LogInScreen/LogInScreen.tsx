@@ -2,10 +2,12 @@ import styles from "./LogInScreen.module.css";
 import loginImage from "../../assets/loginImage.png";
 import { supabase } from "../../helpers/supabaseClient";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useState } from "react";
+// import { useState } from "react";
+import { useAppStore } from "../../store.ts";
 
 const LogInScreen = () => {
-  const [email, setEmail] = useState<string>("");
+  // const [email, setEmail] = useState<string>("");
+  const { email, setEmail } = useAppStore();
 
   const login = async () => {
     await supabase.auth.signInWithOAuth({
