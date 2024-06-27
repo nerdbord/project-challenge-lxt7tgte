@@ -9,12 +9,13 @@ const UploadItem = () => {
   const { images, setImages } = useAppStore();
   const user = useUser();
   const [message, setMessage] = useState<string>("");
+  const [urlClipboard, setUrlClipboard] = useState<string>("");
 
   useEffect(() => {
     if (!user) {
       setMessage("user not exist");
     }
-  });
+  }, [user]);
 
   async function getImages() {
     if (!user) return;
@@ -45,6 +46,14 @@ const UploadItem = () => {
     }
   }
 
+  //
+  const copyToClipboard = (url: string) => {
+    navigator.clipboard.writeText(url);
+    alert("URL copied to clipboard");
+  };
+
+  //
+
   const CDNURL =
     "https://pprakrwwprhcswonwict.supabase.co/storage/v1/object/public/images/";
 
@@ -52,6 +61,8 @@ const UploadItem = () => {
     <div className={styles.item}>
       <>
         {images.map((x) => {
+          const imageUrl = `${CDNURL}${user?.id}/${x.name}`;
+
           return (
             <div key={x.name}>
               <img
@@ -61,7 +72,9 @@ const UploadItem = () => {
               />
               <div>
                 <button onClick={() => deleteImage(x.name)}>Delete</button>
-                <button>Download</button>
+                <button onClick={() => copyToClipboard(imageUrl)}>
+                  Download
+                </button>
               </div>
             </div>
           );
