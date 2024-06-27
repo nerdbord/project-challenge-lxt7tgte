@@ -2,12 +2,24 @@ import styles from "./LogInScreen.module.css";
 import loginImage from "../../assets/loginImage.png";
 import { supabase } from "../../helpers/supabaseClient";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-// import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppStore } from "../../store.ts";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 const LogInScreen = () => {
   // const [email, setEmail] = useState<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>(
+    "LogIn using magic link, GitHub or Google"
+  );
   const { email, setEmail } = useAppStore();
+  const user = useUser();
+
+  useEffect(() => {
+    if (!user) {
+      //setErrorMsg("Error connecting to supabase");
+    }
+  }, [user]);
 
   const login = async () => {
     await supabase.auth.signInWithOAuth({
@@ -21,22 +33,15 @@ const LogInScreen = () => {
     });
   };
 
-  const user = useUser();
-  if (user) {
-    console.log("user", user);
-  } else {
-    console.log("error");
-  }
-
   async function magicLink() {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
     });
-
+    console.log(data);
     if (error) {
-      alert("Error to conect with supabase"); // zrobić notistack pod to
+      setErrorMsg("error connecting to supabase"); // zrobić notistack pod to
     } else {
-      alert("Check your email");
+      setErrorMsg("Check your email");
     }
   }
 
@@ -47,7 +52,7 @@ const LogInScreen = () => {
       </div>
       <div className={styles.container}>
         <p className={styles.title}>
-          To add or browes files you need to log in!
+          To add or browse files you need to log in!
         </p>
         <form className={styles.form} action="">
           <label htmlFor="username">Email</label>
@@ -58,10 +63,17 @@ const LogInScreen = () => {
             name="username"
           />
         </form>
-        <div className={styles.btnwrap}>
-          <button onClick={() => magicLink()}>Get Magic Link</button>
-          <button onClick={login}>GitHub Auth</button>
-          <button onClick={googleLog}>Google Login</button>
+        {errorMsg && <div className={styles.error}>{errorMsg}</div>}
+        <div className={styles.buttonBox}>
+          <button className={styles.button} onClick={() => magicLink()}>
+            Send Magic Link
+          </button>
+          <button className={styles.button} onClick={login}>
+            GitHub <FaGithub />
+          </button>
+          <button className={styles.button} onClick={googleLog}>
+            Google <FcGoogle />
+          </button>
         </div>
       </div>
     </div>
