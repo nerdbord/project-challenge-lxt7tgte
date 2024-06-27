@@ -6,6 +6,7 @@ import { FileObject } from "@supabase/storage-js";
 import { TbLogout } from "react-icons/tb";
 import { TbUser } from "react-icons/tb";
 import { TbCopy } from "react-icons/tb";
+import { useAppStore } from "../../store";
 
 const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
   const logout = async () => {
@@ -17,8 +18,8 @@ const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
     }
   };
 
-  const [images, setImages] = useState<FileObject[]>([]);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const { images, setImages, uploadedImageUrl, setUploadedImageUrl } =
+    useAppStore();
 
   const user = useUser();
   const email = user?.email;

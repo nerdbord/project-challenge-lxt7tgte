@@ -2,17 +2,13 @@ import styles from "./LogInScreen.module.css";
 import loginImage from "../../assets/loginImage.png";
 import { supabase } from "../../helpers/supabaseClient";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useAppStore } from "../../store.ts";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 const LogInScreen = () => {
-  // const [email, setEmail] = useState<string>("");
-  const [errorMsg, setErrorMsg] = useState<string>(
-    "LogIn using magic link, GitHub or Google"
-  );
-  const { email, setEmail } = useAppStore();
+  const { email, setEmail, errorMsg, setErrorMsg } = useAppStore();
   const user = useUser();
 
   useEffect(() => {
