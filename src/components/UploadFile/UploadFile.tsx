@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import styles from "./UploadFile.module.css";
 import { v4 as uuidv4 } from "uuid";

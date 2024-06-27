@@ -44,7 +44,7 @@ function App() {
     <div className="container">
       {/* {loggedIn ? <MyUploads onLogout={handleLogout} /> : <LogInScreen />} */}
       {loggedIn ? <UploadFile onLogout={handleLogout} /> : <LogInScreen />}
-      {/* <UploadItem /> */}
+      <UploadItem />
       <Footer />
     </div>
   );

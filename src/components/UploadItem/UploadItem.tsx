@@ -1,10 +1,12 @@
+import { supabase } from "../../helpers/supabaseClient";
 import { useAppStore } from "../../store";
 import styles from "./UploadItem.module.css";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
+import { FileObject } from "@supabase/storage-js";
 
 const UploadItem = () => {
-  const { images, uploadedImageUrl } = useAppStore();
+  const { images, setImages } = useAppStore();
   const user = useUser();
   const [message, setMessage] = useState<string>("");
 
@@ -13,6 +15,35 @@ const UploadItem = () => {
       setMessage("user not exist");
     }
   });
+
+  async function getImages() {
+    if (!user) return;
+    const { data, error } = await supabase.storage
+      .from("images")
+      .list(`${user.id}/`, {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" },
+      });
+
+    if (data !== null) {
+      setImages(data as FileObject[]);
+    } else {
+      console.log(error);
+    }
+  }
+
+  async function deleteImage(imageName: string) {
+    const { error } = await supabase.storage
+      .from("images")
+      .remove([user?.id + "/" + imageName]);
+
+    if (error) {
+      alert("failed: delete image");
+    } else {
+      getImages();
+    }
+  }
 
   const CDNURL =
     "https://pprakrwwprhcswonwict.supabase.co/storage/v1/object/public/images/";
@@ -29,7 +60,7 @@ const UploadItem = () => {
                 alt={x.name}
               />
               <div>
-                <button>Delete</button>
+                <button onClick={() => deleteImage(x.name)}>Delete</button>
                 <button>Download</button>
               </div>
             </div>
