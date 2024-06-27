@@ -7,6 +7,7 @@ import { TbLogout } from "react-icons/tb";
 import { TbUser } from "react-icons/tb";
 import { TbCopy } from "react-icons/tb";
 import { useAppStore } from "../../store";
+import LogInScreen from "../LogInScreen/LogInScreen";
 
 const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
   const logout = async () => {
@@ -18,16 +19,30 @@ const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
     }
   };
 
-  const { images, setImages, uploadedImageUrl, setUploadedImageUrl } =
-    useAppStore();
+  const {
+    temporaryFile,
+    setTemporaryFile,
+    setImages,
+    uploadedImageUrl,
+    setUploadedImageUrl,
+    isEmailPromptVisible,
+    setIsEmailPromptVisible,
+  } = useAppStore();
 
   const user = useUser();
   const email = user?.email;
   const supabase = useSupabaseClient();
 
   console.log(user);
+
   useEffect(() => {
-    getImages();
+    if (user) {
+      getImages();
+      if (temporaryFile) {
+        uploadImage(temporaryFile);
+        setTemporaryFile(null);
+      }
+    }
   }, [user]);
 
   async function getImages() {
@@ -42,17 +57,20 @@ const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
 
     if (data !== null) {
       setImages(data as FileObject[]);
+      console.log("abc", data);
     } else {
       console.log(error);
     }
   }
 
-  async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!user) return;
-    const file = e.target.files?.[0];
-    if (!file) return;
+  async function uploadImage(file: File) {
+    if (!user) {
+      setTemporaryFile(file);
+      setIsEmailPromptVisible(true);
+      return;
+    }
 
-    const filePath = `${user.id}/${uuidv4()}`;
+    const filePath = `${user?.id}/${uuidv4()}`;
 
     const { data, error } = await supabase.storage
       .from("images")
@@ -72,6 +90,12 @@ const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
     }
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    uploadImage(file);
+  };
+
   const copyToClipboard = () => {
     if (uploadedImageUrl) {
       navigator.clipboard.writeText(uploadedImageUrl);
@@ -80,52 +104,58 @@ const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h3>Logged in as {email}</h3>
-        <div className={styles.buttonbox}>
-          <button className={styles.button} onClick={logout}>
-            My images <TbUser />
-          </button>
-          <button className={styles.button} onClick={logout}>
-            Log out <TbLogout />
-          </button>
+    <>
+      {isEmailPromptVisible ? (
+        <LogInScreen />
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.header}>
+            {email ? <h3>Logged in as {email}</h3> : <p>Not logged</p>}
+            <div className={styles.buttonbox}>
+              <button className={styles.button} onClick={logout}>
+                My images <TbUser />
+              </button>
+              <button className={styles.button} onClick={logout}>
+                Log out <TbLogout />
+              </button>
+            </div>
+          </div>
+
+          <form>
+            <input
+              type="file"
+              id="fileUpload"
+              accept="image/png, image/jpeg"
+              onChange={handleFileChange}
+              className={styles.uploadbox}
+            />
+            <label htmlFor="fileUpload" className={styles.uploadLabel}>
+              <h2>Upload files</h2>
+              Drag & Drop your files or <span>choose files</span>
+              <p className={styles.subtitle}>500 MB max file size.</p>
+            </label>
+          </form>
+
+          <div className={styles.imglink}>
+            {uploadedImageUrl && (
+              <>
+                <p>Your IMG Link: </p>
+                <a
+                  href={uploadedImageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {uploadedImageUrl}
+                </a>
+                <button className={styles.button} onClick={copyToClipboard}>
+                  Copy URL to Image <TbCopy />
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-
-      <form>
-        <input
-          type="file"
-          id="fileUpload"
-          accept="image/png, image/jpeg"
-          onChange={(e) => uploadImage(e)}
-          className={styles.uploadbox}
-        />
-        <label htmlFor="fileUpload" className={styles.uploadLabel}>
-          <h2>Upload files</h2>
-          Drag & Drop your files or <span>choose files</span>
-          <p className={styles.subtitle}>500 MB max file size.</p>
-        </label>
-      </form>
-
-      <div className={styles.imglink}>
-        {uploadedImageUrl && (
-          <>
-            <p>Your IMG Link: </p>
-            <a
-              href={uploadedImageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {uploadedImageUrl}
-            </a>
-            <button className={styles.button} onClick={copyToClipboard}>
-              Copy URL to Image <TbCopy />
-            </button>
-          </>
-        )}
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

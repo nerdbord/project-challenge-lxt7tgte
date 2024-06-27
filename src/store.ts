@@ -10,6 +10,10 @@ interface StateApp {
   setUploadedImageUrl: (uploadedImageUrl: string | null) => void;
   errorMsg: string;
   setErrorMsg: (errosMsg: string) => void;
+  temporaryFile: File | null;
+  setTemporaryFile: (temporaryFile: File | null) => void;
+  isEmailPromptVisible: boolean;
+  setIsEmailPromptVisible: (isEmailPromptVisible: boolean) => void;
 }
 
 export const useAppStore = create<StateApp>((set) => ({
@@ -21,4 +25,9 @@ export const useAppStore = create<StateApp>((set) => ({
   setUploadedImageUrl: (uploadedImageUrl) => set({ uploadedImageUrl }),
   errorMsg: "LogIn using magic link, GitHub or Google",
   setErrorMsg: (errorMsg) => set({ errorMsg }),
+  temporaryFile: null,
+  setTemporaryFile: (temporaryFile) => set({ temporaryFile }),
+  isEmailPromptVisible: false,
+  setIsEmailPromptVisible: (isEmailPromptVisible) =>
+    set({ isEmailPromptVisible }),
 }));
