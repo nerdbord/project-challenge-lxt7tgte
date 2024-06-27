@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "./helpers/supabaseClient";
 import LogInScreen from "./components/LogInScreen/LogInScreen";
 import UploadItem from "./components/UploadItem/UploadItem";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -44,6 +45,7 @@ function App() {
       {/* {loggedIn ? <MyUploads onLogout={handleLogout} /> : <LogInScreen />} */}
       {loggedIn ? <UploadFile onLogout={handleLogout} /> : <LogInScreen />}
       {/* <UploadItem /> */}
+      <Footer />
     </div>
   );
 }
