@@ -3,6 +3,9 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import styles from "./UploadFile.module.css";
 import { v4 as uuidv4 } from "uuid";
 import { FileObject } from "@supabase/storage-js";
+import { TbLogout } from "react-icons/tb";
+import { TbUser } from "react-icons/tb";
+import { TbCopy } from "react-icons/tb";
 
 const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
   const logout = async () => {
@@ -18,8 +21,10 @@ const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   const user = useUser();
+  const email = user?.email;
   const supabase = useSupabaseClient();
 
+  console.log(user);
   useEffect(() => {
     getImages();
   }, [user]);
@@ -74,38 +79,51 @@ const UploadFile = ({ onLogout }: { onLogout: () => void }) => {
   };
 
   return (
-    <div className={styles.upload}>
-      <h2>Upload files</h2>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h3>Logged in as {email}</h3>
+        <div className={styles.buttonbox}>
+          <button className={styles.button} onClick={logout}>
+            My images <TbUser />
+          </button>
+          <button className={styles.button} onClick={logout}>
+            Log out <TbLogout />
+          </button>
+        </div>
+      </div>
+
       <form>
         <input
           type="file"
+          id="fileUpload"
           accept="image/png, image/jpeg"
           onChange={(e) => uploadImage(e)}
           className={styles.uploadbox}
         />
-        <p>
-          Drag & Drop your files or <a href="#">choose files</a>
-        </p>
-        <p className={styles.subtitle}>500 MB max file size.</p>
+        <label htmlFor="fileUpload" className={styles.uploadLabel}>
+          <h2>Upload files</h2>
+          Drag & Drop your files or <span>choose files</span>
+          <p className={styles.subtitle}>500 MB max file size.</p>
+        </label>
       </form>
-      <div className={styles.buttons}>
+
+      <div className={styles.imglink}>
         {uploadedImageUrl && (
           <>
-            <p>
-              Your IMG Link:{" "}
-              <a
-                href={uploadedImageUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {uploadedImageUrl}
-              </a>
-            </p>
-            <button onClick={copyToClipboard}>Copy URL to Image</button>
+            <p>Your IMG Link: </p>
+            <a
+              href={uploadedImageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {uploadedImageUrl}
+            </a>
+            <button className={styles.button} onClick={copyToClipboard}>
+              Copy URL to Image <TbCopy />
+            </button>
           </>
         )}
       </div>
-      <button onClick={logout}>Log out</button>
     </div>
   );
 };
