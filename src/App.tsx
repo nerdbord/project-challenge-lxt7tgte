@@ -7,6 +7,7 @@ import { supabase } from "./helpers/supabaseClient";
 import LogInScreen from "./components/LogInScreen/LogInScreen";
 import UploadItem from "./components/UploadItem/UploadItem";
 import Footer from "./components/Footer/Footer";
+import MyUploads from "./components/MyUploads/MyUploads";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -43,8 +44,9 @@ function App() {
   return (
     <div className="container">
       {/* {loggedIn ? <MyUploads onLogout={handleLogout} /> : <LogInScreen />} */}
-      {loggedIn ? <UploadFile onLogout={handleLogout} /> : <LogInScreen />}
-      <UploadItem />
+      {/*  {loggedIn ? <UploadFile onLogout={handleLogout} /> : <LogInScreen />} */}
+      <UploadFile />
+
       <Footer />
     </div>
   );
