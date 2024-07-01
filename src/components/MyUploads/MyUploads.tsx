@@ -17,13 +17,6 @@ const MyUploads = ({ onLogout }: { onLogout: () => void }) => {
       <h2 className={styles.title}>MyUploads</h2>
       <div className={styles.itembox}>
         <UploadItem />
-        <UploadItem />
-        <UploadItem />
-        <UploadItem />
-        <UploadItem />
-        <UploadItem />
-        <UploadItem />
-        <UploadItem />
       </div>
       <button onClick={logout}>Log out</button>
     </div>

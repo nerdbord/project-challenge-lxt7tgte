@@ -14,6 +14,8 @@ const UploadItem = () => {
   useEffect(() => {
     if (!user) {
       setMessage("user not exist");
+    } else {
+      getImages();
     }
   }, [user]);
 
