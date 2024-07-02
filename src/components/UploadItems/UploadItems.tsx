@@ -1,11 +1,11 @@
 import { supabase } from "../../helpers/supabaseClient";
 import { useAppStore } from "../../store";
-import styles from "./UploadItem.module.css";
+import styles from "./UploadItems.module.css";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { FileObject } from "@supabase/storage-js";
 
-const UploadItem = () => {
+const UploadItems = () => {
   const { images, setImages } = useAppStore();
   const user = useUser();
   const [message, setMessage] = useState<string>("");
@@ -60,31 +60,30 @@ const UploadItem = () => {
     "https://pprakrwwprhcswonwict.supabase.co/storage/v1/object/public/images/";
 
   return (
-    <div className={styles.item}>
+    <div className={styles.items}>
       <>
         {images.map((x) => {
           const imageUrl = `${CDNURL}${user?.id}/${x.name}`;
 
           return (
-            <div key={x.name}>
+            <div key={x.name} className={styles.item}>
               <img
                 className={styles.img}
                 src={`${CDNURL}${user?.id}/${x.name}`}
                 alt={x.name}
               />
-              <div>
+              <div className={styles.buttonbox}>
                 <button onClick={() => deleteImage(x.name)}>Delete</button>
                 <button onClick={() => copyToClipboard(imageUrl)}>
-                  Download
+                  Copy URL
                 </button>
               </div>
             </div>
           );
         })}
       </>
-      <div className={styles.buttonbox}></div>
     </div>
   );
 };
 
-export default UploadItem;
+export default UploadItems;
