@@ -1,22 +1,19 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
 .container {
   margin: 16px;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 800px;
-  height: 70vh;
+  height: 80vh;
 }
 
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .container {
     height: 100vh;
   }
@@ -35,3 +32,4 @@
   .container {
   }
 }
+ */

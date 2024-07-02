@@ -12,9 +12,8 @@
 
 .itembox {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 1em;
   padding: 0 20px;
-  overflow-y: scroll;
   max-height: 84%;
 }
