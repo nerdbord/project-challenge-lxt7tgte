@@ -52,7 +52,12 @@ const UploadFile = () => {
     if (data) {
       const { data: publicData } = supabase.storage
         .from("images")
-        .getPublicUrl(filePath);
+        .getPublicUrl(filePath, {
+          transform: {
+            width: 500,
+            height: 600,
+          },
+        });
       setUploadedImageUrl(publicData.publicUrl);
       getImages();
     } else {
