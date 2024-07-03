@@ -1,12 +1,14 @@
-/* LogInModal.module.css */
-
 .items {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 1em;
-  align-items: center;
   margin-bottom: 20px;
-  justify-content: center;
+  padding: 1em;
+  height: 80%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .item {
@@ -14,16 +16,16 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: column;
   align-items: center;
-  overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  width: 100%;
+  width: 200px;
+  height: 250px;
+  margin-bottom: 1em;
 }
 
 p {
-  margin: none !important;
+  margin: 0 !important;
 }
 
 .item img {
@@ -38,4 +40,8 @@ p {
   justify-content: center;
   width: 100%;
   padding-top: 15px;
+}
+
+.title {
+  color: #646cff;
 }

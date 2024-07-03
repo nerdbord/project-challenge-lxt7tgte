@@ -60,8 +60,10 @@ const UploadItems = () => {
     "https://pprakrwwprhcswonwict.supabase.co/storage/v1/object/public/images/";
 
   return (
-    <div className={styles.items}>
-      <>
+    <>
+      <h2 className={styles.title}>My Uploads</h2>
+
+      <div className={styles.items}>
         {images.map((x) => {
           const imageUrl = `${CDNURL}${user?.id}/${x.name}`;
 
@@ -81,8 +83,8 @@ const UploadItems = () => {
             </div>
           );
         })}
-      </>
-    </div>
+      </div>
+    </>
   );
 };
 
