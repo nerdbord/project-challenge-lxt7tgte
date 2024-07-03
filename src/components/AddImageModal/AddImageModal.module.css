@@ -1,8 +1,8 @@
 .modal {
   background: black;
   padding: 20px;
-  width: 600px;
-  height: 500px;
+  width: fit-content;
+  height: fit-content;
   max-width: 90%;
   position: relative;
   display: flex;

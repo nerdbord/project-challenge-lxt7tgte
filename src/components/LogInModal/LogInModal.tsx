@@ -84,8 +84,9 @@ const LogInModal = ({
                 name="username"
                 placeholder="Email"
               />
+              {errorMsg && <div className={styles.error}>{errorMsg}</div>}
             </form>
-            {errorMsg && <div className={styles.error}>{errorMsg}</div>}
+
             <div className={styles.buttonBox}>
               <button className={styles.button} onClick={magicLink}>
                 Send Magic Link

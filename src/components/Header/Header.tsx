@@ -11,7 +11,8 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
   const user = useUser();
   const email = user?.email;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isAddImgModalOpen, setIsAddImgModalOpen] = useState(false);
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -22,12 +23,20 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
     }
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const openAddImgModal = () => {
+    setIsAddImgModalOpen(true);
+  };
+
+  const closeAddImgModal = () => {
+    setIsAddImgModalOpen(false);
   };
 
   return (
@@ -36,7 +45,7 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
         <>
           <h3>Logged in as {email}</h3>
           <div className={styles.buttonbox}>
-            <button className={styles.button} onClick={openModal}>
+            <button className={styles.button} onClick={openAddImgModal}>
               Add Image <TbPlus />
             </button>
             <button className={styles.button} onClick={logout}>
@@ -52,15 +61,18 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
           </div>
 
           <div className={styles.buttonbox}>
-            <button className={styles.button} onClick={openModal}>
+            <button className={styles.button} onClick={openLoginModal}>
               Log in <TbLogin />
             </button>
           </div>
         </>
       )}
 
-      <LogInModal isOpen={isModalOpen} onRequestClose={closeModal} />
-      <AddImageModal isOpen={isModalOpen} onRequestClose={closeModal} />
+      <LogInModal isOpen={isLoginModalOpen} onRequestClose={closeLoginModal} />
+      <AddImageModal
+        isOpen={isAddImgModalOpen}
+        onRequestClose={closeAddImgModal}
+      />
     </div>
   );
 };

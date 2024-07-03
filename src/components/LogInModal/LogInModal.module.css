@@ -5,6 +5,10 @@
   height: 400px;
   max-width: 90%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
 }
 
 .overlay {
@@ -75,9 +79,7 @@ form button {
 
 .title {
   font-size: 2.5em;
-  line-height: 1.1;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 2rem;
 }
 
 .form {
@@ -126,7 +128,7 @@ input.invalid {
   flex-wrap: nowrap;
   align-items: center;
   gap: 10px;
-  padding-top: 1rem;
+  padding-top: 2rem;
   padding-bottom: 1rem;
   width: 90%;
 }
