@@ -9,7 +9,7 @@ const UploadItems = () => {
   const { images, setImages } = useAppStore();
   const user = useUser();
   const [message, setMessage] = useState<string>("");
-  const [urlClipboard, setUrlClipboard] = useState<string>("");
+  // const [urlClipboard, setUrlClipboard] = useState<string>("");
 
   useEffect(() => {
     if (!user) {
