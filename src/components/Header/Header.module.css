@@ -1,12 +1,11 @@
 .header {
-  position: fixed;
-  top: 2rem;
+  /*  position: fixed; */
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 2em;
-  width: 80%;
+  width: 100%;
 }
 
 .buttonbox {

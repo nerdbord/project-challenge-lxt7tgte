@@ -5,9 +5,9 @@ import UploadFile from "./components/UploadFile/UploadFile";
 import { useEffect, useState } from "react";
 import { supabase } from "./helpers/supabaseClient";
 import LogInScreen from "./components/Trash/LogInScreen/LogInScreen";
-import UploadItem from "./components/UploadItems/UploadItems.tsx";
+import UploadItems from "./components/UploadItems/UploadItems.tsx";
 import Footer from "./components/Footer/Footer";
-import MyUploads from "./components/MyUploads/MyUploads";
+import MyUploads from "./components/Trash/MyUploads/MyUploads.tsx";
 import Landing from "./components/Landing/Landing";
 import Header from "./components/Header/Header";
 
@@ -44,15 +44,13 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <Header onLogout={handleLogout} />
-
-      {loggedIn ? <MyUploads onLogout={handleLogout} /> : <Landing />}
-      {/* {loggedIn ? <UploadFile onLogout={handleLogout} /> : <LogInScreen />} */}
-      {/* <UploadFile /> */}
-
-      <Footer />
-    </div>
+    <>
+      <div className="container">
+        <Header onLogout={handleLogout} />
+        {loggedIn ? <UploadItems onLogout={handleLogout} /> : <Landing />}
+        <Footer />
+      </div>
+    </>
   );
 }
 

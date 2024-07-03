@@ -1,5 +1,5 @@
 import styles from "./MyUploads.module.css";
-import UploadItems from "../UploadItems/UploadItems";
+import UploadItems from "../../UploadItems/UploadItems";
 
 const MyUploads = () => {
   return (
