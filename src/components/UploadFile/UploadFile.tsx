@@ -5,8 +5,11 @@ import { v4 as uuidv4 } from "uuid";
 import { FileObject } from "@supabase/storage-js";
 import { TbCopy } from "react-icons/tb";
 import { useAppStore } from "../../store";
+import { useSnackbar } from "notistack";
 
 const UploadFile = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const { images, setImages, uploadedImageUrl, setUploadedImageUrl } =
     useAppStore();
 
@@ -60,6 +63,9 @@ const UploadFile = () => {
         });
       setUploadedImageUrl(publicData.publicUrl);
       getImages();
+      enqueueSnackbar("Photo was uploaded successfully", {
+        variant: "success",
+      });
     } else {
       console.log("error", error);
     }
@@ -68,7 +74,9 @@ const UploadFile = () => {
   const copyToClipboard = () => {
     if (uploadedImageUrl) {
       navigator.clipboard.writeText(uploadedImageUrl);
-      alert("URL copied to clipboard");
+      enqueueSnackbar("URL copied to clipboard", {
+        variant: "success",
+      });
     }
   };
 
