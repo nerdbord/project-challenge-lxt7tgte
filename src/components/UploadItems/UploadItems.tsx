@@ -5,12 +5,17 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { FileObject } from "@supabase/storage-js";
 import { SnackbarProvider, useSnackbar } from "notistack";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 const UploadItems = () => {
   const { images, setImages } = useAppStore();
   const user = useUser();
   const [message, setMessage] = useState<string>("");
-  // const [urlClipboard, setUrlClipboard] = useState<string>("");
+  const [modalState, setModalState] = useState<boolean>(false);
+  const [modalUrl, setModalUrl] = useState<string>("");
+
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -55,6 +60,11 @@ const UploadItems = () => {
     }
   }
 
+  const handleMouseOpen = (url: string) => {
+    setModalState(true);
+    setModalUrl(url);
+  };
+
   const copyToClipboard = (url: string) => {
     navigator.clipboard.writeText(url);
     enqueueSnackbar("URL copied to clipboard", {
@@ -85,11 +95,32 @@ const UploadItems = () => {
                 <button onClick={() => copyToClipboard(imageUrl)}>
                   Copy URL
                 </button>
+                <button onClick={() => handleMouseOpen(imageUrl)}>
+                  Full screen
+                </button>
               </div>
             </div>
           );
         })}
       </div>
+      <Modal
+        isOpen={modalState}
+        onRequestClose={() => setModalState(false)}
+        contentLabel="Image Modal"
+      >
+        <button
+          className={styles.buttonModal}
+          onClick={() => setModalState(false)}
+        >
+          Close
+        </button>
+
+        {modalUrl && (
+          <div>
+            <img src={modalUrl} alt="Modal" style={{ width: "100%" }} />
+          </div>
+        )}
+      </Modal>
     </>
   );
 };

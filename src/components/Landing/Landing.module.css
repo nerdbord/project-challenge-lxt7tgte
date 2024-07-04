@@ -1,3 +1,7 @@
+.infobox {
+  margin-bottom: 20px;
+}
+
 .infobox h3 {
   font-weight: bold;
 }
@@ -7,6 +11,6 @@
 }
 
 .infobox img {
-  width: 50%;
+  width: 40%;
   height: auto;
 }
