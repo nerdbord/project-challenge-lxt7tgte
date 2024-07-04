@@ -19,7 +19,7 @@
   justify-content: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 215px;
+  width: 315px;
   height: 310px;
 }
 
@@ -43,4 +43,8 @@ p {
 
 .title {
   color: #646cff;
+}
+
+.buttonModal {
+  margin-bottom: 15px;
 }
