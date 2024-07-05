@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 import { FileObject } from "@supabase/storage-js";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import Modal from "react-modal";
+import { FaFileDownload } from "react-icons/fa";
+import { FaRegCopy } from "react-icons/fa";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import { BsArrowsFullscreen } from "react-icons/bs";
 
 Modal.setAppElement("#root");
 
@@ -82,6 +86,7 @@ const UploadItems = () => {
       <div className={styles.items}>
         {images.map((x) => {
           const imageUrl = `${CDNURL}${user?.id}/${x.name}`;
+          const downloadUrl = `${imageUrl}?download=${x.name}.png`;
 
           return (
             <div key={x.name} className={styles.item}>
@@ -91,13 +96,20 @@ const UploadItems = () => {
                 alt={x.name}
               />
               <div className={styles.buttonbox}>
-                <button onClick={() => deleteImage(x.name)}>Delete</button>
+                <button onClick={() => deleteImage(x.name)}>
+                  <MdOutlineDeleteForever />
+                </button>
                 <button onClick={() => copyToClipboard(imageUrl)}>
-                  Copy URL
+                  <FaRegCopy />{" "}
                 </button>
                 <button onClick={() => handleMouseOpen(imageUrl)}>
-                  Full screen
+                  <BsArrowsFullscreen />{" "}
                 </button>
+                <a href={downloadUrl} download>
+                  <button>
+                    <FaFileDownload />
+                  </button>
+                </a>
               </div>
             </div>
           );
