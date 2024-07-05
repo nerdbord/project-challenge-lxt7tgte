@@ -1,4 +1,5 @@
 import "./App.css";
+
 import { useEffect, useState } from "react";
 import { supabase } from "./helpers/supabaseClient";
 import UploadItems from "./components/UploadItems/UploadItems.tsx";
@@ -19,13 +20,15 @@ function App() {
 
     checkUser();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN") {
-        setLoggedIn(true);
-      } else if (event === "SIGNED_OUT") {
-        setLoggedIn(false);
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, _) => {
+        if (event === "SIGNED_IN") {
+          setLoggedIn(true);
+        } else if (event === "SIGNED_OUT") {
+          setLoggedIn(false);
+        }
       }
-    });
+    );
 
     return () => {
       authListener.subscription.unsubscribe();
