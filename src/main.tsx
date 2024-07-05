@@ -9,8 +9,12 @@ import { SnackbarProvider } from "notistack";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <SessionContextProvider supabaseClient={supabase}>
-      <SnackbarProvider>
-        {" "}
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
         <App />
       </SnackbarProvider>
     </SessionContextProvider>

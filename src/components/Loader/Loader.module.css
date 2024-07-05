@@ -1,0 +1,26 @@
+/* Loader.module.css */
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loader {
+  border: 8px solid #535bf2;
+  border-top: 8px solid #1a1a1a;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

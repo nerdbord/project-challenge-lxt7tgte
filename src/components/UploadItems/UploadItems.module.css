@@ -23,10 +23,6 @@
   height: 310px;
 }
 
-p {
-  margin: 0 !important;
-}
-
 .item img {
   width: 100%;
   object-fit: cover;
@@ -39,6 +35,19 @@ p {
   justify-content: center;
   width: 100%;
   padding-top: 15px;
+}
+
+.button {
+  padding: 1rem;
+}
+
+.button svg {
+  width: 30px;
+  height: 30px;
+}
+
+.button:hover svg {
+  color: #646cff;
 }
 
 .title {

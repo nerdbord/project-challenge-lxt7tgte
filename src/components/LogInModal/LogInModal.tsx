@@ -28,13 +28,23 @@ const LogInModal = ({
     });
   };
 
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   async function magicLink() {
-    const { data, error } = await supabase.auth.signInWithOtp({
+    if (!validateEmail(email)) {
+      setErrorMsg("Please enter a valid email address");
+      return;
+    }
+
+    const { error } = await supabase.auth.signInWithOtp({
       email: email,
     });
-    console.log(data);
+
     if (error) {
-      setErrorMsg("error connecting to supabase");
+      setErrorMsg("Error connecting to Supabase");
     } else {
       setErrorMsg("Check your email");
     }
