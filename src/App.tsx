@@ -1,13 +1,9 @@
 import "./App.css";
-// import SignInScreen from "./components/SignInScreen/SignInScreen";
-import UploadFile from "./components/UploadFile/UploadFile";
-// import MyUploads from "./components/MyUploads/MyUploads";
+
 import { useEffect, useState } from "react";
 import { supabase } from "./helpers/supabaseClient";
-import LogInScreen from "./components/Trash/LogInScreen/LogInScreen";
 import UploadItems from "./components/UploadItems/UploadItems.tsx";
 import Footer from "./components/Footer/Footer";
-import MyUploads from "./components/Trash/MyUploads/MyUploads.tsx";
 import Landing from "./components/Landing/Landing";
 import Header from "./components/Header/Header";
 
@@ -25,7 +21,7 @@ function App() {
     checkUser();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      (event, _) => {
         if (event === "SIGNED_IN") {
           setLoggedIn(true);
         } else if (event === "SIGNED_OUT") {
@@ -47,7 +43,7 @@ function App() {
     <>
       <div className="container">
         <Header onLogout={handleLogout} />
-        {loggedIn ? <UploadItems onLogout={handleLogout} /> : <Landing />}
+        {loggedIn ? <UploadItems /> : <Landing />}
         <Footer />
       </div>
     </>

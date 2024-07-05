@@ -4,7 +4,7 @@ import styles from "./UploadItems.module.css";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { FileObject } from "@supabase/storage-js";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import Modal from "react-modal";
 import { FaFileDownload } from "react-icons/fa";
 import { FaRegCopy } from "react-icons/fa";
@@ -25,6 +25,7 @@ const UploadItems = () => {
   useEffect(() => {
     if (!user) {
       setMessage("user not exist");
+      console.log(message);
     } else {
       getImages();
     }
