@@ -1,4 +1,4 @@
-/* import { useEffect, useRef } from "react"; */
+import { useEffect } from "react";
 import styles from "./AddImageModal.module.css";
 import { MdClose } from "react-icons/md";
 import UploadFile from "../UploadFile/UploadFile";
@@ -10,8 +10,6 @@ const AddImageModal = ({
   isOpen: boolean;
   onRequestClose: () => void;
 }) => {
-  /*   const modalRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) =>
       e.key === "Escape" ? onRequestClose() : null;
@@ -19,7 +17,7 @@ const AddImageModal = ({
     return () => {
       document.body.removeEventListener("keydown", closeOnEscapeKey);
     };
-  }, [onRequestClose]); */
+  }, [onRequestClose]);
 
   if (!isOpen) return null;
 

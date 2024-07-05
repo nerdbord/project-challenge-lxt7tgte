@@ -70,6 +70,7 @@
   align-items: center;
   gap: 1em;
   margin-top: 3rem;
+  padding: 1rem;
 }
 
 .imglink p {
@@ -78,5 +79,4 @@
 
 .imglink a {
   margin: 0;
-  width: 80%;
 }

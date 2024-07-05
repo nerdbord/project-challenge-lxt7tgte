@@ -1,14 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { supabase } from "../../helpers/supabaseClient";
 import { useAppStore } from "../../store";
 import styles from "./UploadItems.module.css";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { FileObject } from "@supabase/storage-js";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import Modal from "react-modal";
-import { FaFileDownload } from "react-icons/fa";
-import { FaRegCopy } from "react-icons/fa";
-import { MdOutlineDeleteForever } from "react-icons/md";
+import { TbTrashX, TbCloudDownload, TbCopyPlus } from "react-icons/tb";
 import { BsArrowsFullscreen } from "react-icons/bs";
 
 Modal.setAppElement("#root");
@@ -16,7 +15,6 @@ Modal.setAppElement("#root");
 const UploadItems = () => {
   const { images, setImages } = useAppStore();
   const user = useUser();
-  const [message, setMessage] = useState<string>("");
   const [modalState, setModalState] = useState<boolean>(false);
   const [modalUrl, setModalUrl] = useState<string>("");
 
@@ -24,43 +22,64 @@ const UploadItems = () => {
 
   useEffect(() => {
     if (!user) {
-      setMessage("user not exist");
+      return;
     } else {
       getImages();
     }
   }, [user]);
 
   async function getImages() {
-    if (!user) return;
-    const { data, error } = await supabase.storage
-      .from("images")
-      .list(`${user.id}/`, {
-        limit: 100,
-        offset: 0,
-        sortBy: { column: "name", order: "asc" },
+    if (!user) {
+      enqueueSnackbar("User is not defined. Please log in.", {
+        variant: "error",
       });
+      return;
+    }
 
-    if (data !== null) {
+    try {
+      const { data, error } = await supabase.storage
+        .from("images")
+        .list(`${user.id}/`, {
+          limit: 100,
+          offset: 0,
+          sortBy: { column: "created_at", order: "desc" },
+        });
+
+      if (error || data === null) {
+        enqueueSnackbar("Error fetching data. Please try again later.", {
+          variant: "error",
+        });
+        return;
+      }
+
       setImages(data as FileObject[]);
-    } else {
-      console.log(error);
+    } catch {
+      enqueueSnackbar("Error fetching data. Please try again later.", {
+        variant: "error",
+      });
     }
   }
 
   async function deleteImage(imageName: string) {
-    const { error } = await supabase.storage
-      .from("images")
-      .remove([user?.id + "/" + imageName]);
-    enqueueSnackbar("Image has been successfully deleted", {
-      variant: "success",
-    });
+    try {
+      const { error } = await supabase.storage
+        .from("images")
+        .remove([`${user?.id}/${imageName}`]);
 
-    if (error) {
-      enqueueSnackbar("Something goes wrong", {
+      if (error) {
+        enqueueSnackbar("Something went wrong. Please try again.", {
+          variant: "error",
+        });
+      } else {
+        enqueueSnackbar("Image has been successfully deleted", {
+          variant: "success",
+        });
+        getImages();
+      }
+    } catch {
+      enqueueSnackbar("An unexpected error occurred.", {
         variant: "error",
       });
-    } else {
-      getImages();
     }
   }
 
@@ -96,20 +115,29 @@ const UploadItems = () => {
                 alt={x.name}
               />
               <div className={styles.buttonbox}>
-                <button onClick={() => deleteImage(x.name)}>
-                  <MdOutlineDeleteForever />
+                <button
+                  className={styles.button}
+                  onClick={() => copyToClipboard(imageUrl)}
+                >
+                  <TbCopyPlus />
                 </button>
-                <button onClick={() => copyToClipboard(imageUrl)}>
-                  <FaRegCopy />{" "}
-                </button>
-                <button onClick={() => handleMouseOpen(imageUrl)}>
-                  <BsArrowsFullscreen />{" "}
+                <button
+                  className={styles.button}
+                  onClick={() => handleMouseOpen(imageUrl)}
+                >
+                  <BsArrowsFullscreen />
                 </button>
                 <a href={downloadUrl} download>
-                  <button>
-                    <FaFileDownload />
+                  <button className={styles.button}>
+                    <TbCloudDownload />
                   </button>
                 </a>
+                <button
+                  className={styles.button}
+                  onClick={() => deleteImage(x.name)}
+                >
+                  <TbTrashX />
+                </button>
               </div>
             </div>
           );
