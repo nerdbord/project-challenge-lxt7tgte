@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styles from "./AddImageModal.module.css";
 import { MdClose } from "react-icons/md";
-import UploadFile from "../UploadFile/UploadFile";
+import UploadFile from "../../UploadFile/UploadFile";
 
 const AddImageModal = ({
   isOpen,

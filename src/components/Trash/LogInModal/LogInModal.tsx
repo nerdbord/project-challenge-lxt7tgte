@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import styles from "./LogInModal.module.css";
-import { supabase } from "../../helpers/supabaseClient";
-import { useAppStore } from "../../store.ts";
+import { supabase } from "../../../helpers/supabaseClient.ts";
+import { useAppStore } from "../../../store.ts";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { MdClose } from "react-icons/md";
