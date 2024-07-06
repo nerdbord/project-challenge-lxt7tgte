@@ -112,21 +112,11 @@ a {
 
   .item {
     width: 100%;
-    margin-bottom: 1em;
-  }
-
-  .buttonbox {
-    flex-direction: column;
-    gap: 10px;
   }
 }
 
 @media (max-width: 400px) {
   .button {
     padding: 0.25rem;
-  }
-
-  .item img {
-    height: 150px;
   }
 }
