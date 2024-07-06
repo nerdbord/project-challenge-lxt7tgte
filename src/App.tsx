@@ -6,6 +6,7 @@ import Footer from "./components/Footer/Footer";
 import Landing from "./components/Landing/Landing";
 import Header from "./components/Header/Header";
 import Loader from "./components/Loader/Loader";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -49,7 +50,16 @@ function App() {
   return (
     <div className="container">
       <Header onLogout={handleLogout} />
-      {loggedIn ? <UploadItems /> : <Landing />}
+      <Routes>
+        <Route
+          path="/"
+          element={loggedIn ? <Navigate to="/upload" /> : <Landing />}
+        />
+        <Route
+          path="/upload"
+          element={loggedIn ? <UploadItems /> : <Navigate to="/" />}
+        />
+      </Routes>
       <Footer />
     </div>
   );
