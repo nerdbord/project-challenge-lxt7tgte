@@ -40,13 +40,22 @@
 .buttonbox {
   display: flex;
   gap: 5px;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   padding-top: 15px;
 }
 
 .button {
-  padding: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+a {
+  padding: 0.5rem;
+  background-color: #1a1a1a;
 }
 
 .button svg {
@@ -75,4 +84,49 @@
   object-fit: scale-down;
   height: 100dvh;
   height: 100vh;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .item {
+    width: calc(33.333% - 1em);
+  }
+}
+
+@media (max-width: 992px) {
+  .item {
+    width: calc(50% - 1em);
+  }
+}
+
+@media (max-width: 768px) {
+  .item {
+    width: calc(100% - 1em);
+  }
+}
+
+@media (max-width: 576px) {
+  .items {
+    padding: 0.5em;
+  }
+
+  .item {
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  .buttonbox {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .button {
+    padding: 0.25rem;
+  }
+
+  .item img {
+    height: 150px;
+  }
 }
