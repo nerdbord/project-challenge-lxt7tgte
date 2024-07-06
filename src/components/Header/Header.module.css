@@ -34,3 +34,18 @@
 .logo {
   height: 50px;
 }
+
+/* Media Queries for Responsiveness */
+@media (max-width: 675px) {
+  .button {
+    padding: 1rem;
+  }
+
+  .button svg {
+    margin-left: 0;
+  }
+
+  .button span {
+    display: none;
+  }
+}

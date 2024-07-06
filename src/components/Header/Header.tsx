@@ -47,10 +47,12 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
           <h3>Logged in as {email}</h3>
           <div className={styles.buttonbox}>
             <button className={styles.button} onClick={openAddImgModal}>
-              Add Image <TbPlus />
+              <span>Add Image </span>
+              <TbPlus />
             </button>
             <button className={styles.button} onClick={logout}>
-              Log out <TbLogout />
+              <span>Log out</span>
+              <TbLogout />
             </button>
           </div>
         </>
@@ -63,7 +65,8 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
 
           <div className={styles.buttonbox}>
             <button className={styles.button} onClick={openLoginModal}>
-              Log in <TbLogin />
+              <span>Log in </span>
+              <TbLogin />
             </button>
           </div>
         </>
