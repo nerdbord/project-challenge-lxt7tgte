@@ -3,6 +3,7 @@
   line-height: 1.5;
   font-weight: 400;
 
+  /* Ensure dark mode settings */
   color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -31,6 +32,8 @@ body {
 
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 h1 {
@@ -79,15 +82,9 @@ input[type="password"]:focus {
   outline: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Ensure dark mode on all browsers */
+html,
+body {
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
 }
