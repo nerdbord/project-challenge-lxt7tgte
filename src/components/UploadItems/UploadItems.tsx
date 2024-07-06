@@ -5,8 +5,12 @@ import styles from "./UploadItems.module.css";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useState, useCallback } from "react";
 import { useSnackbar } from "notistack";
-import { TbTrashX, TbCloudDownload, TbCopyPlus } from "react-icons/tb";
-import { BsArrowsFullscreen } from "react-icons/bs";
+import {
+  TbTrashX,
+  TbCloudDownload,
+  TbCopyPlus,
+  TbArrowsMaximize,
+} from "react-icons/tb";
 import Loader from "../Loader/Loader";
 import Modal from "../Modal/Modal";
 
@@ -146,7 +150,7 @@ const UploadItems = () => {
                     className={styles.button}
                     onClick={() => handleMouseOpen(imageUrl)}
                   >
-                    <BsArrowsFullscreen />
+                    <TbArrowsMaximize />
                   </button>
                   <a href={downloadUrl} download>
                     <button className={styles.button}>
