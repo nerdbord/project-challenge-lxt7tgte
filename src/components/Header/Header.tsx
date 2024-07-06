@@ -3,8 +3,9 @@ import styles from "./Header.module.css";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { TbLogin, TbLogout, TbPlus } from "react-icons/tb";
 import Logo from "../../assets/logo.png";
-import LogInModal from "../LogInModal/LogInModal";
-import AddImageModal from "../AddImageModal/AddImageModal";
+import Modal from "../Modal/Modal";
+import UploadFile from "../UploadFile/UploadFile";
+import LoginForm from "../LoginForm/LoginForm";
 
 const Header = ({ onLogout }: { onLogout: () => void }) => {
   const supabase = useSupabaseClient();
@@ -68,11 +69,12 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
         </>
       )}
 
-      <LogInModal isOpen={isLoginModalOpen} onRequestClose={closeLoginModal} />
-      <AddImageModal
-        isOpen={isAddImgModalOpen}
-        onRequestClose={closeAddImgModal}
-      />
+      <Modal isOpen={isLoginModalOpen} onRequestClose={closeLoginModal}>
+        <LoginForm />
+      </Modal>
+      <Modal isOpen={isAddImgModalOpen} onRequestClose={closeAddImgModal}>
+        <UploadFile />
+      </Modal>
     </div>
   );
 };

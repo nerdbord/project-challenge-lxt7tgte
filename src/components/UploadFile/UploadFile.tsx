@@ -137,13 +137,7 @@ const UploadFile = () => {
       {uploadedImageUrl && (
         <div className={styles.imglink}>
           <button className={styles.button} onClick={copyToClipboard}>
-            <a
-              href={uploadedImageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Your image is uploaded. Click here to copy URL <TbCopy />{" "}
-            </a>
+            Your image is uploaded. Click here to copy URL <TbCopy />
           </button>
         </div>
       )}

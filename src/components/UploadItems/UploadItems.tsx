@@ -3,32 +3,24 @@ import { supabase } from "../../helpers/supabaseClient";
 import { useAppStore } from "../../store";
 import styles from "./UploadItems.module.css";
 import { useUser } from "@supabase/auth-helpers-react";
-import { useEffect, useState } from "react";
-import { FileObject } from "@supabase/storage-js";
+import { useEffect, useState, useCallback } from "react";
 import { useSnackbar } from "notistack";
-import Modal from "react-modal";
 import { TbTrashX, TbCloudDownload, TbCopyPlus } from "react-icons/tb";
 import { BsArrowsFullscreen } from "react-icons/bs";
-
-Modal.setAppElement("#root");
+import Loader from "../Loader/Loader";
+import Modal from "../Modal/Modal";
 
 const UploadItems = () => {
   const { images, setImages } = useAppStore();
   const user = useUser();
-  const [modalState, setModalState] = useState<boolean>(false);
-  const [modalUrl, setModalUrl] = useState<string>("");
+  const [modalUrl, setModalUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [visibleItems, setVisibleItems] = useState(new Set());
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  useEffect(() => {
-    if (!user) {
-      return;
-    } else {
-      getImages();
-    }
-  }, [user]);
-
-  async function getImages() {
+  const getImages = useCallback(async () => {
     if (!user) {
       enqueueSnackbar("User is not defined. Please log in.", {
         variant: "error",
@@ -36,6 +28,7 @@ const UploadItems = () => {
       return;
     }
 
+    setLoading(true);
     try {
       const { data, error } = await supabase.storage
         .from("images")
@@ -45,119 +38,136 @@ const UploadItems = () => {
           sortBy: { column: "created_at", order: "desc" },
         });
 
-      if (error || data === null) {
+      if (error || !data) {
         enqueueSnackbar("Error fetching data. Please try again later.", {
           variant: "error",
         });
         return;
       }
 
-      setImages(data as FileObject[]);
+      setImages(data);
     } catch {
       enqueueSnackbar("Error fetching data. Please try again later.", {
         variant: "error",
       });
+    } finally {
+      setLoading(false);
     }
-  }
+  }, [user, enqueueSnackbar, setImages]);
 
-  async function deleteImage(imageName: string) {
-    try {
-      const { error } = await supabase.storage
-        .from("images")
-        .remove([`${user?.id}/${imageName}`]);
+  useEffect(() => {
+    if (user) {
+      getImages();
+    }
+  }, [user, getImages]);
 
-      if (error) {
-        enqueueSnackbar("Something went wrong. Please try again.", {
-          variant: "error",
-        });
-      } else {
-        enqueueSnackbar("Image has been successfully deleted", {
-          variant: "success",
-        });
-        getImages();
+  const deleteImage = useCallback(
+    async (imageName: string) => {
+      setLoading(true);
+      try {
+        const { error } = await supabase.storage
+          .from("images")
+          .remove([`${user?.id}/${imageName}`]);
+
+        if (error) {
+          enqueueSnackbar("Something went wrong. Please try again.", {
+            variant: "error",
+          });
+        } else {
+          enqueueSnackbar("Image has been successfully deleted", {
+            variant: "success",
+          });
+          getImages();
+        }
+      } catch {
+        enqueueSnackbar("An unexpected error occurred.", { variant: "error" });
+      } finally {
+        setLoading(false);
       }
-    } catch {
-      enqueueSnackbar("An unexpected error occurred.", {
-        variant: "error",
-      });
-    }
-  }
+    },
+    [user, enqueueSnackbar, getImages]
+  );
 
   const handleMouseOpen = (url: string) => {
-    setModalState(true);
     setModalUrl(url);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalUrl("");
   };
 
   const copyToClipboard = (url: string) => {
     navigator.clipboard.writeText(url);
-    enqueueSnackbar("URL copied to clipboard", {
-      variant: "success",
-    });
+    enqueueSnackbar("URL copied to clipboard", { variant: "success" });
   };
 
   const CDNURL =
     "https://pprakrwwprhcswonwict.supabase.co/storage/v1/object/public/images/";
 
+  useEffect(() => {
+    const timeoutIds = images.map((x, index) =>
+      setTimeout(() => {
+        setVisibleItems((prev) => new Set(prev).add(x.name));
+      }, index * 100)
+    );
+
+    return () => {
+      timeoutIds.forEach((id) => clearTimeout(id));
+    };
+  }, [images]);
+
   return (
     <>
-      <h2 className={styles.title}>My Uploads</h2>
-
+      {loading && <Loader />}
       <div className={styles.items}>
-        {images.map((x) => {
-          const imageUrl = `${CDNURL}${user?.id}/${x.name}`;
-          const downloadUrl = `${imageUrl}?download=${x.name}.png`;
+        {!loading &&
+          images.map((x) => {
+            const imageUrl = `${CDNURL}${user?.id}/${x.name}`;
+            const downloadUrl = `${imageUrl}?download=${x.name}.png`;
 
-          return (
-            <div key={x.name} className={styles.item}>
-              <img
-                className={styles.img}
-                src={`${CDNURL}${user?.id}/${x.name}`}
-                alt={x.name}
-              />
-              <div className={styles.buttonbox}>
-                <button
-                  className={styles.button}
-                  onClick={() => copyToClipboard(imageUrl)}
-                >
-                  <TbCopyPlus />
-                </button>
-                <button
-                  className={styles.button}
-                  onClick={() => handleMouseOpen(imageUrl)}
-                >
-                  <BsArrowsFullscreen />
-                </button>
-                <a href={downloadUrl} download>
-                  <button className={styles.button}>
-                    <TbCloudDownload />
+            return (
+              <div
+                key={x.name}
+                className={`${styles.item} ${
+                  visibleItems.has(x.name) ? styles.visible : ""
+                }`}
+              >
+                <img className={styles.img} src={imageUrl} alt={x.name} />
+                <div className={styles.buttonbox}>
+                  <button
+                    className={styles.button}
+                    onClick={() => copyToClipboard(imageUrl)}
+                  >
+                    <TbCopyPlus />
                   </button>
-                </a>
-                <button
-                  className={styles.button}
-                  onClick={() => deleteImage(x.name)}
-                >
-                  <TbTrashX />
-                </button>
+                  <button
+                    className={styles.button}
+                    onClick={() => handleMouseOpen(imageUrl)}
+                  >
+                    <BsArrowsFullscreen />
+                  </button>
+                  <a href={downloadUrl} download>
+                    <button className={styles.button}>
+                      <TbCloudDownload />
+                    </button>
+                  </a>
+                  <button
+                    className={styles.button}
+                    onClick={() => deleteImage(x.name)}
+                  >
+                    <TbTrashX />
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
-      <Modal
-        isOpen={modalState}
-        onRequestClose={() => setModalState(false)}
-        contentLabel="Image Modal"
-      >
-        <button
-          className={styles.buttonModal}
-          onClick={() => setModalState(false)}
-        >
-          Close
-        </button>
-
+      <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
         {modalUrl && (
-          <div>
-            <img src={modalUrl} alt="Modal" style={{ width: "100%" }} />
+          <div className={styles.imgbox}>
+            <img src={modalUrl} alt="Modal" />
           </div>
         )}
       </Modal>
