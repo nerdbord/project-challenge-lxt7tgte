@@ -11,7 +11,6 @@ import {
   TbCopyPlus,
   TbArrowsMaximize,
 } from "react-icons/tb";
-import Loader from "../Loader/Loader";
 import Modal from "../Modal/Modal";
 
 const UploadItems = () => {
@@ -124,7 +123,6 @@ const UploadItems = () => {
 
   return (
     <>
-      {loading && <Loader />}
       <div className={styles.items}>
         {!loading &&
           images.map((x) => {
