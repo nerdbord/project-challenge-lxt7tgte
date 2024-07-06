@@ -17,6 +17,8 @@ function App() {
       const { data } = await supabase.auth.getUser();
       if (data.user) {
         setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
       }
       setLoading(false);
     };
@@ -40,6 +42,7 @@ function App() {
   }, []);
 
   const handleLogout = () => {
+    supabase.auth.signOut();
     setLoggedIn(false);
   };
 
