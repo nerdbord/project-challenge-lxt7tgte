@@ -110,7 +110,7 @@ const UploadFile = () => {
 
   return (
     <div className={styles.container}>
-      {loading ? (
+      {!loading ? (
         <Loader />
       ) : (
         <form>
