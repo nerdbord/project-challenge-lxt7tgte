@@ -110,7 +110,7 @@ const UploadFile = () => {
 
   return (
     <div className={styles.container}>
-      {!loading ? (
+      {loading ? (
         <Loader />
       ) : (
         <form>
@@ -133,8 +133,7 @@ const UploadFile = () => {
           </label>
         </form>
       )}
-
-      {uploadedImageUrl && (
+      {!loading && uploadedImageUrl && (
         <div className={styles.imglink}>
           <button className={styles.button} onClick={copyToClipboard}>
             Your image is uploaded. Click here to copy URL <TbCopy />
