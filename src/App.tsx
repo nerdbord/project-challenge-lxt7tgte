@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { supabase } from "./helpers/supabaseClient";
-import UploadItems from "./components/UploadItems/UploadItems.tsx";
+import UploadedItems from "./components/UploadedItems/UploadedItems";
 import Footer from "./components/Footer/Footer";
 import Landing from "./components/Landing/Landing";
 import Header from "./components/Header/Header";
@@ -53,6 +53,7 @@ function App() {
   return (
     <div className="container">
       <Header onLogout={handleLogout} />
+
       <Routes>
         <Route
           path="/"
@@ -60,7 +61,7 @@ function App() {
         />
         <Route
           path="/upload"
-          element={loggedIn ? <UploadItems /> : <Navigate to="/" />}
+          element={loggedIn ? <UploadedItems /> : <Navigate to="/" />}
         />
       </Routes>
       <Footer />
