@@ -59,12 +59,7 @@ const UploadFile = () => {
     if (data) {
       const { data: publicData } = supabase.storage
         .from("images")
-        .getPublicUrl(filePath, {
-          transform: {
-            width: 500,
-            height: 600,
-          },
-        });
+        .getPublicUrl(filePath);
       setUploadedImageUrl(publicData.publicUrl);
       await getImages();
       enqueueSnackbar("Photo was uploaded successfully", {
