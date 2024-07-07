@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { supabase } from "../../helpers/supabaseClient";
 import { useAppStore } from "../../store";
-import styles from "./UploadItems.module.css";
+import styles from "./UploadedItems.module.css";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useState, useCallback } from "react";
 import { useSnackbar } from "notistack";
@@ -12,8 +12,9 @@ import {
   TbArrowsMaximize,
 } from "react-icons/tb";
 import Modal from "../Modal/Modal";
+import { motion } from "framer-motion";
 
-const UploadItems = () => {
+const UploadedItems = () => {
   const { images, setImages } = useAppStore();
   const user = useUser();
   const [modalUrl, setModalUrl] = useState("");
@@ -130,11 +131,17 @@ const UploadItems = () => {
             const downloadUrl = `${imageUrl}?download=${x.name}.png`;
 
             return (
-              <div
+              <motion.div
                 key={x.name}
                 className={`${styles.item} ${
                   visibleItems.has(x.name) ? styles.visible : ""
                 }`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: visibleItems.has(x.name) ? 1 : 0,
+                  y: visibleItems.has(x.name) ? 0 : 20,
+                }}
+                transition={{ duration: 0.5 }}
               >
                 <img className={styles.img} src={imageUrl} alt={x.name} />
                 <div className={styles.buttonbox}>
@@ -162,7 +169,7 @@ const UploadItems = () => {
                     <TbTrashX />
                   </button>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
       </div>
@@ -177,4 +184,4 @@ const UploadItems = () => {
   );
 };
 
-export default UploadItems;
+export default UploadedItems;

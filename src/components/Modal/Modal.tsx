@@ -1,4 +1,5 @@
 import { useEffect, ReactNode, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./Modal.module.css";
 import { MdClose } from "react-icons/md";
 
@@ -38,17 +39,32 @@ const Modal = ({
     };
   }, [onRequestClose]);
 
-  if (!isOpen) return null;
-
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal} ref={modalRef}>
-        <button className={styles.closebtn} onClick={onRequestClose}>
-          <MdClose />
-        </button>
-        {children}
-      </div>
-    </div>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className={styles.overlay}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div
+            className={styles.modal}
+            ref={modalRef}
+            initial={{ y: "-100vh", opacity: 0 }}
+            animate={{ y: "0", opacity: 1 }}
+            exit={{ y: "-100vh", opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <button className={styles.closebtn} onClick={onRequestClose}>
+              <MdClose />
+            </button>
+            {children}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
