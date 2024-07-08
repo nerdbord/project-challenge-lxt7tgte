@@ -57,19 +57,16 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
           </div>
         </>
       ) : (
-        <>
+        <div className={styles.landing}>
           <div className={styles.logobox}>
             <img className={styles.logo} src={Logo} alt="cloud logo" />
             <h2>CloudStore</h2>
           </div>
-
-          <div className={styles.buttonbox}>
-            <button className={styles.button} onClick={openLoginModal}>
-              <span>Log in </span>
-              <TbLogin />
-            </button>
-          </div>
-        </>
+          <button className={styles.login} onClick={openLoginModal}>
+            <span>Log in </span>
+            <TbLogin />
+          </button>
+        </div>
       )}
 
       <Modal isOpen={isLoginModalOpen} onRequestClose={closeLoginModal}>

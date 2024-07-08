@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import styles from "./UploadFile.module.css";
 import { v4 as uuidv4 } from "uuid";
@@ -7,14 +7,12 @@ import { FileObject } from "@supabase/storage-js";
 import { TbCopy } from "react-icons/tb";
 import { useAppStore } from "../../store";
 import { useSnackbar } from "notistack";
-import Loader from "../Loader/Loader";
 
 const UploadFile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { setImages, uploadedImageUrl, setUploadedImageUrl } = useAppStore();
   const user = useUser();
   const supabase = useSupabaseClient();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -26,7 +24,7 @@ const UploadFile = () => {
 
   async function getImages() {
     if (!user) return;
-    setLoading(true);
+
     const { data } = await supabase.storage.from("images").list(`${user.id}/`, {
       limit: 100,
       offset: 0,
@@ -40,12 +38,10 @@ const UploadFile = () => {
         variant: "error",
       });
     }
-    setLoading(false);
   }
 
   async function uploadImage(file: File) {
     if (!user) return;
-    setLoading(true);
 
     const filePath = `${user.id}/${uuidv4()}`;
 
@@ -69,7 +65,6 @@ const UploadFile = () => {
       enqueueSnackbar("Error uploading image. Please try again later.", {
         variant: "error",
       });
-      setLoading(false);
     }
   }
 
@@ -105,29 +100,25 @@ const UploadFile = () => {
 
   return (
     <div className={styles.container}>
-      {loading ? (
-        <Loader />
-      ) : (
-        <form>
-          <input
-            type="file"
-            id="fileUpload"
-            accept="image/png, image/jpeg"
-            onChange={handleFileChange}
-            className={styles.uploadbox}
-          />
-          <label
-            htmlFor="fileUpload"
-            className={styles.uploadLabel}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-          >
-            <h2>Upload files</h2>
-            Drag & Drop your files or <span>choose files</span>
-            <p className={styles.subtitle}>500 MB max file size.</p>
-          </label>
-        </form>
-      )}
+      <form>
+        <input
+          type="file"
+          id="fileUpload"
+          accept="image/png, image/jpeg"
+          onChange={handleFileChange}
+          className={styles.uploadbox}
+        />
+        <label
+          htmlFor="fileUpload"
+          className={styles.uploadLabel}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+        >
+          <h2>Upload files</h2>
+          Drag & Drop your files or <span>choose files</span>
+          <p className={styles.subtitle}>500 MB max file size.</p>
+        </label>
+      </form>
 
       {uploadedImageUrl && (
         <div className={styles.imglink}>
