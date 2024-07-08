@@ -3,21 +3,22 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 2em;
+  gap: 2rem;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
 }
 
 .buttonbox {
   display: flex;
+  flex-direction: row;
   gap: 1em;
 }
 
-.button {
+.button,
+.login {
   display: flex;
   align-items: center;
-  text-align: center;
-  box-sizing: border-box;
+  justify-content: space-between;
   padding: 0.5rem 1rem;
 }
 
@@ -28,6 +29,7 @@
 .logobox {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1em;
 }
 
@@ -35,14 +37,42 @@
   height: 50px;
 }
 
+.landing {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
 /* Media Queries for Responsiveness */
 @media (max-width: 675px) {
-  .button {
-    padding: 1rem;
+  h3 {
+    margin: 0;
+    align-self: start;
   }
 
-  .button svg {
-    margin-left: 0;
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .button {
+    width: 100%;
+  }
+
+  .buttonbox {
+    width: 100%;
+  }
+}
+
+@media (max-width: 375px) {
+  .landing span {
+    display: none;
+  }
+
+  .button {
+    justify-content: center;
   }
 
   .button span {
