@@ -46,7 +46,7 @@ function App() {
     setLoggedIn(false);
   };
 
-  if (!loading) {
+  if (loading) {
     return <Loader />;
   }
 

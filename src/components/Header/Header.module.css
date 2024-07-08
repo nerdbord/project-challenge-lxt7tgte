@@ -65,3 +65,17 @@
     width: 100%;
   }
 }
+
+@media (max-width: 375px) {
+  .landing span {
+    display: none;
+  }
+
+  .button {
+    justify-content: center;
+  }
+
+  .button span {
+    display: none;
+  }
+}
