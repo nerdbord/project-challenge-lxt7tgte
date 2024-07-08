@@ -68,6 +68,39 @@ const UploadFile = () => {
     }
   }
 
+  async function uploadImageWhenUserNotExist(file: File) {
+    const filePath = `temporary/${uuidv4()}`;
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("temporary")
+      .upload(filePath, file);
+
+    if (uploadError) {
+      console.log("Błąd przesyłania pliku", uploadError);
+      return;
+    }
+
+    console.log("Plik został przesłany, dane uploadData:", uploadData);
+
+    if (uploadData) {
+      const { data: signedData, error: signedError } = await supabase.storage
+        .from("temporary")
+        .createSignedUrl(uploadData.path, 120);
+
+      if (signedError) {
+        console.log("Błąd tworzenia podpisanego URL", signedError);
+      } else {
+        console.log(
+          "Tworzenie podpisanego URL zakończone sukcesem",
+          signedData.signedUrl
+        );
+        setUploadedImageUrl(signedData.signedUrl);
+      }
+    } else {
+      console.log("uploadData jest null lub undefined");
+    }
+  }
+
   const handleDrop: React.DragEventHandler<HTMLLabelElement> = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -84,8 +117,10 @@ const UploadFile = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if (file && user) {
       uploadImage(file);
+    } else if (file && !user) {
+      uploadImageWhenUserNotExist(file);
     }
   };
 
