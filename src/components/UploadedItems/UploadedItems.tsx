@@ -13,6 +13,7 @@ import {
 } from "react-icons/tb";
 import Modal from "../Modal/Modal";
 import { motion } from "framer-motion";
+import UploadFile from "../UploadFile/UploadFile";
 
 const UploadedItems = () => {
   const { images, setImages } = useAppStore();
@@ -124,6 +125,12 @@ const UploadedItems = () => {
 
   return (
     <>
+      {!loading && images.length === 0 && (
+        <div className={styles.empty}>
+          <h2>No images uploaded yet!</h2>
+          <UploadFile />
+        </div>
+      )}
       <div className={styles.items}>
         {!loading &&
           images.map((x) => {
@@ -157,10 +164,8 @@ const UploadedItems = () => {
                   >
                     <TbArrowsMaximize />
                   </button>
-                  <a href={downloadUrl} download>
-                    <button className={styles.button}>
-                      <TbCloudDownload />
-                    </button>
+                  <a href={downloadUrl} className={styles.button} download>
+                    <TbCloudDownload />
                   </a>
                   <button
                     className={styles.button}
