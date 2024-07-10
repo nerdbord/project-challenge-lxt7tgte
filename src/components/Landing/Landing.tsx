@@ -124,7 +124,7 @@ const Landing = () => {
         to your image that you can copy and use as you wish. Enjoy seamless
         image sharing with our simple and efficient tool!
       </motion.p>
-      {/* {uploading && <div className={styles.loader}>Loading...</div>} */}
+      {uploading && <div className={styles.loader}>Loading...</div>}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
