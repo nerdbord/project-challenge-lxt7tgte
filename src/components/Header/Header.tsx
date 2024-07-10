@@ -42,32 +42,32 @@ const Header = ({ onLogout }: { onLogout: () => void }) => {
 
   return (
     <div className={styles.header}>
-      {/* {user ? ( */}
-      <>
-        <h3>Logged in as {email}</h3>
-        <div className={styles.buttonbox}>
-          <button className={styles.button} onClick={openAddImgModal}>
-            <span>Add Image </span>
-            <TbPlus />
-          </button>
-          <button className={styles.button} onClick={logout}>
-            <span>Log out</span>
-            <TbLogout />
+      {user ? (
+        <>
+          <h3>Logged in as {email}</h3>
+          <div className={styles.buttonbox}>
+            <button className={styles.button} onClick={openAddImgModal}>
+              <span>Add Image </span>
+              <TbPlus />
+            </button>
+            <button className={styles.button} onClick={logout}>
+              <span>Log out</span>
+              <TbLogout />
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className={styles.landing}>
+          <div className={styles.logobox}>
+            <img className={styles.logo} src={Logo} alt="cloud logo" />
+            <h2>CloudStore</h2>
+          </div>
+          <button className={styles.login} onClick={openLoginModal}>
+            <span>Log in </span>
+            <TbLogin />
           </button>
         </div>
-      </>
-      {/* ) : ( */}
-      <div className={styles.landing}>
-        <div className={styles.logobox}>
-          <img className={styles.logo} src={Logo} alt="cloud logo" />
-          <h2>CloudStore</h2>
-        </div>
-        <button className={styles.login} onClick={openLoginModal}>
-          <span>Log in </span>
-          <TbLogin />
-        </button>
-      </div>
-      {/* )} */}
+      )}
 
       <Modal isOpen={isLoginModalOpen} onRequestClose={closeLoginModal}>
         <LoginForm />
