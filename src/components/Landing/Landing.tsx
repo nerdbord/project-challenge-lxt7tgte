@@ -7,6 +7,7 @@ import { useAppStore } from "../../store";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { TbCopy } from "react-icons/tb";
+import Loader from "../Loader/Loader";
 
 const Landing = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -124,17 +125,27 @@ const Landing = () => {
         to your image that you can copy and use as you wish. Enjoy seamless
         image sharing with our simple and efficient tool!
       </motion.p>
-      {uploading && <div className={styles.loader}>Loading...</div>}
+      {uploading && (
+        <div className={styles.loader}>
+          <Loader />
+        </div>
+      )}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
-            <p>This is your URL</p>
-            <button className={styles.button} onClick={copyToClipboard}>
-              Copy URL <TbCopy />
-            </button>
-            <button className={styles.closeButton} onClick={closeModal}>
-              Zamknij
-            </button>
+            <h2>Image uploaded successfully! 🎉</h2>
+            <div className={styles.infobox}>
+              <p>This is your temporary URL, valid only for 15 min.</p>
+              <p> If you want permanent link - log in!</p>
+            </div>
+            <div className={styles.buttonbox}>
+              <button className={styles.button} onClick={copyToClipboard}>
+                Copy URL <TbCopy />
+              </button>
+              <button className={styles.button} onClick={closeModal}>
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
