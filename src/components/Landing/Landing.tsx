@@ -8,6 +8,8 @@ import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { TbCopy } from "react-icons/tb";
 import Loader from "../Loader/Loader";
+import Modal from "../Modal/Modal";
+import LoginForm from "../LoginForm/LoginForm";
 
 const Landing = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -18,6 +20,8 @@ const Landing = () => {
     null
   );
   const [showModal, setShowModal] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isAddImgModalOpen, setIsAddImgModalOpen] = useState(false);
 
   async function uploadImageWhenUserNotExist(file: File) {
     setUploading(true);
@@ -82,74 +86,94 @@ const Landing = () => {
     setUploadedImageUrlLocal(null);
   };
 
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
   return (
-    <motion.div
-      className={styles.infobox}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      <motion.img
-        src={CloudLogo}
-        alt="cloud"
-        initial={{ y: "-100vh", opacity: 0 }}
-        animate={{ y: "0", opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        onClick={handleLogoClick}
-        style={{ cursor: "pointer" }}
-      />
-      <input
-        type="file"
-        id="fileUpload"
-        accept="image/png, image/jpeg"
-        onChange={handleFileChange}
-        style={{ display: "none" }}
-      />
-      <motion.p
-        className={styles.title}
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1 }}
+    <>
+      <motion.div
+        className={styles.infobox}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        With this CloudStore you can easily upload your images and receive a
-        direct link to share or use anywhere you need!
-      </motion.p>
-      <motion.p
-        className={styles.subtitle}
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1.5 }}
-      >
-        Just drag and drop your image files or choose files from your device,
-        and we'll take care of the rest. Once uploaded, you'll get a unique link
-        to your image that you can copy and use as you wish. Enjoy seamless
-        image sharing with our simple and efficient tool!
-      </motion.p>
-      {uploading && (
-        <div className={styles.loader}>
-          <Loader />
-        </div>
-      )}
-      {showModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalContent}>
-            <h2>Image uploaded successfully! 🎉</h2>
-            <div className={styles.infobox}>
-              <p>This is your temporary URL, valid only for 15 min.</p>
-              <p> If you want permanent link - log in!</p>
-            </div>
-            <div className={styles.buttonbox}>
-              <button className={styles.button} onClick={copyToClipboard}>
-                Copy URL <TbCopy />
-              </button>
-              <button className={styles.button} onClick={closeModal}>
-                Close
-              </button>
+        <motion.img
+          src={CloudLogo}
+          alt="cloud"
+          initial={{ y: "-100vh", opacity: 0 }}
+          animate={{ y: "0", opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          onClick={handleLogoClick}
+          style={{ cursor: "pointer" }}
+        />
+        <input
+          type="file"
+          id="fileUpload"
+          accept="image/png, image/jpeg"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
+        <motion.p
+          className={styles.title}
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1 }}
+        >
+          With this CloudStore you can easily upload your images and receive a
+          direct link to share or use anywhere you need!
+        </motion.p>
+        <motion.p
+          className={styles.subtitle}
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.5 }}
+        >
+          Just drag and drop your image files or choose files from your device,
+          and we'll take care of the rest. Once uploaded, you'll get a unique
+          link to your image that you can copy and use as you wish. Enjoy
+          seamless image sharing with our simple and efficient tool!
+        </motion.p>
+        {uploading && (
+          <div className={styles.loader}>
+            <Loader />
+          </div>
+        )}
+        {showModal && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+              <h2>Image uploaded successfully! 🎉</h2>
+              <div className={styles.infobox}>
+                <p>This is your temporary URL, valid only for 15 min.</p>
+                <p>
+                  {" "}
+                  If you want to keep the photo permanently, use the quick login
+                  below.
+                </p>
+              </div>
+              <div className={styles.buttonbox}>
+                <button className={styles.button} onClick={copyToClipboard}>
+                  Copy URL <TbCopy />
+                </button>
+                <button className={styles.button} onClick={closeModal}>
+                  Close
+                </button>
+                <button className={styles.button} onClick={openLoginModal}>
+                  Login
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </motion.div>
+        )}
+      </motion.div>
+      <Modal isOpen={isLoginModalOpen} onRequestClose={closeLoginModal}>
+        <LoginForm />
+      </Modal>
+    </>
   );
 };
 
