@@ -22,6 +22,7 @@ const Landing = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isAddImgModalOpen, setIsAddImgModalOpen] = useState(false);
+  const { tempoNextLogin, setTempNextLogin } = useAppStore();
 
   async function uploadImageWhenUserNotExist(file: File) {
     setUploading(true);
@@ -54,6 +55,8 @@ const Landing = () => {
         setUploadedImageUrl(signedData.signedUrl);
         setUploadedImageUrlLocal(signedData.signedUrl);
         setShowModal(true);
+        setTempNextLogin(file); // Ustaw plik w stanie
+        console.log("File set in tempNextLogin:", file);
       }
     } else {
       console.log("uploadData jest null lub undefined");
@@ -65,6 +68,7 @@ const Landing = () => {
     const file = e.target.files?.[0];
     if (file) {
       uploadImageWhenUserNotExist(file);
+      setTempNextLogin(file);
     }
   };
 
